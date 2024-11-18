@@ -9,5 +9,5 @@ import react from '@astrojs/react';
 export default defineConfig({
   integrations: [tailwind(), react()],
   base: '/apps/abbott/laberinto-klaricid',
-  outDir: '/apps/abbott/laberinto-klaricid'
+  outDir: 'apps/abbott/laberinto-klaricid'
 });

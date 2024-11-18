@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import FooterApp from "../sections/FooterApp.astro";
+import HeaderApp from "../sections/HeaderApp.astro";
+import Labyrinth from "../sections/Labyrinth";
+---
+
+<Layout title="Laberinto - Elevando el estándar" bg="">
+  <HeaderApp />
+  <Labyrinth client:load />
+  <FooterApp />
+</Layout>
