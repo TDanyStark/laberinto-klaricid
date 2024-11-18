@@ -1,0 +1,29 @@
+---
+import { URL_BASE } from "../variables";
+---
+
+<section class="font-brandon">
+  <div
+    class="max-w-[1200px] mx-auto relative bg-cover bg-center flex items-center"
+    style={`background-image: url('${URL_BASE}/images/banner.webp');`}
+  >
+    <div class="bg-black/40 absolute inset-0 z-0"></div>
+    <div class="relative z-10 text-white px-4 py-10 lg:p-16">
+      <div class="w-full md:w-[72%] flex flex-col items-start gap-16">
+        <h1 class="text-4xl lg:text-5xl">
+          <span class="font-bold">ELEVANDO</span><br /> EL ESTÁNDAR
+        </h1>
+        <p class="text-4xl lg:text-6xl text-amarillo_abbott">
+          ESCAPA DEL USO INDEBIDO DE LA AZITROMICINA <span class="font-bold"
+            ></br>PARA PREVENIR LA RESISTENCIA BACTERIANA</span
+          >
+        </p>
+        <a
+          href={URL_BASE + "/laberinto/"}
+          class="bg-blanco_abbott inline-block text-azul_oscuro px-6 py-3 rounded-full text-2xl"
+          ><span class="font-bold">HAZ CLIC AQUÍ</span> PARA EMPEZAR</a
+        >
+      </div>
+    </div>
+  </div>
+</section>
