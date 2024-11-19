@@ -1,10 +1,14 @@
 import { URL_BASE } from "../variables";
 import { preguntas as data } from "../data/questions.ts";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import confetti from "canvas-confetti";
 
 const Questions = () => {
   const [preguntas, setPreguntas] = useState(data);
   const [countClick, setCountClick] = useState(0);
+  const [showNotice, setShowNotice] = useState(false);
+  const isFirstRender = useRef(true);
+  const labImageRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountClick(countClick + 1);
@@ -39,8 +43,12 @@ const Questions = () => {
     );
 
     if (opcionSeleccionada?.isCorrect) {
+      const audio = new Audio(`${URL_BASE}/sounds/success.mp3`);
+      audio.play();
       console.log("¡Respuesta correcta!");
     } else {
+      const audio = new Audio(`${URL_BASE}/sounds/error.mp3`);
+      audio.play();
       console.log("Respuesta incorrecta");
     }
   };
@@ -52,22 +60,100 @@ const Questions = () => {
 
   const imgStep = `step${pasosCorrectos}`;
 
-  console.log("countClick", countClick);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return; // Salir del efecto en el primer renderizado
+    }
+    // Realizar scroll hacia la imagen del laberinto
+    if (labImageRef.current) {
+      labImageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Mostrar el confetti si se han respondido todas las preguntas correctamente en la menor cantidad de intentos
+    if (countClick === preguntas.length &&
+      pasosCorrectos === preguntas.length) {
+      const audio = new Audio(`${URL_BASE}/sounds/confetti.mp3`);
+      audio.play();
+      
+        confetti({
+          particleCount: 200,
+          angle: 60,
+          spread: 70,
+          origin: { x: 0, y: 0.9 },
+        });
+        confetti({
+          particleCount: 200,
+          angle: 120,
+          spread: 70,
+          origin: { x: 0.9, y: 0.9 },
+        });
+    }
+
+    // Mostrar el notice cada vez que 'pasosCorrectos' cambia
+    setShowNotice(true);
+    let time: number = 5000;
+    // si el laberinto ya esta terminado dar mas tiempo para que se vea el confetti
+    if (pasosCorrectos === preguntas.length) {
+      time = 10000;
+    }
+
+    // Establecer un temporizador para ocultar el notice después de 1 segundo
+    const timer = setTimeout(() => {
+      setShowNotice(false);
+    }, time);
+
+    // Limpiar el temporizador cuando el componente se desmonte o antes de ejecutar el efecto nuevamente
+    return () => clearTimeout(timer);
+  }, [preguntas]); // Dependencias: se ejecuta cada vez que 'pasosCorrectos' cambia
 
   return (
     <div className="flex flex-col md:flex-row mt-8 gap-8 font-brandon">
-      <div className="labyrinth basis-2/5">
-        <div className="sticky top-10">
-          <img
-            src={`${URL_BASE}/images/steps_labyrinth/${imgStep}.webp`}
-            alt={`Labyrinth ${imgStep}`}
-            className="w-full max-w-lg mx-auto select-none"
-            draggable="false"
-          />
-          <div className="absolute inset-0 z-10 flex justify-center items-center">
-            <div className="absolute inset-0 bg-black opacity-40"></div>
-            <p className="text-7xl font-bold relative">HOLAAAA</p>
+      <div className="labyrinth basis-2/5 py-5 md:py-10">
+        <div className="sticky top-5" ref={labImageRef}>
+          <div className="relative">
+            <img
+              src={`${URL_BASE}/images/steps_labyrinth/${imgStep}.webp`}
+              alt={`Labyrinth ${imgStep}`}
+              className="w-full max-w-lg mx-auto select-none"
+              draggable="false"
+            />
+            {showNotice && (
+              <div
+                id="notice"
+                className="absolute inset-0 z-10 flex justify-center items-center"
+              >
+                <div className="absolute inset-0 bg-black opacity-80"></div>
+                <div className="relative text-4xl p-4 text-center">
+                  <h2 className="text-white font-bold">
+                    ✅{pasosCorrectos} correctas de {preguntas.length}
+                  </h2>
+                  <p className="text-white text-2xl text-pretty">
+                    {pasosCorrectos === preguntas.length
+                      ? "¡Felicidades! Has completado el laberinto"
+                      : "Responde todas las preguntas para salir del laberinto"}
+                  </p>
+                  {pasosCorrectos === preguntas.length && (
+                    <>
+                      <p className="text-2xl text-amarillo_abbott">
+                        lo haz logrado en {countClick} intentos
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
+          {pasosCorrectos === preguntas.length && (
+            <div className="text-center mt-8">
+              <button
+                onClick={() => window.location.reload()}
+                className="mt-4 py-2 px-4 bg-amarillo_abbott text-azul_claro text-3xl font-bold rounded-full"
+              >
+                Volver a intentar
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <div className="questions basis-3/5">
