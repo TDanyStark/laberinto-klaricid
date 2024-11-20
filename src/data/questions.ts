@@ -1,4 +1,4 @@
-type Opcion = {
+export type Opcion = {
   letra: "a" | "b" | "c";
   texto: string;
   isCorrect: boolean;

@@ -1,14 +1,28 @@
 import { URL_BASE } from "../variables";
-import { preguntas as data } from "../data/questions.ts";
-import { useState, useEffect, useRef } from "react";
+import { preguntas as data, type Opcion } from "../data/questions.ts";
+import { useState, useEffect, useRef, useMemo } from "react";
 import confetti from "canvas-confetti";
 
 const Questions = () => {
   const [preguntas, setPreguntas] = useState(data);
   const [countClick, setCountClick] = useState(0);
   const [showNotice, setShowNotice] = useState(false);
-  const isFirstRender = useRef(true);
   const labImageRef = useRef<HTMLDivElement>(null);
+  const [successAudio, setSuccessAudio] = useState<HTMLAudioElement | null>(
+    null
+  );
+  const [errorAudio, setErrorAudio] = useState<HTMLAudioElement | null>(null);
+  const [confettiAudio, setConfettiAudio] = useState<HTMLAudioElement | null>(
+    null
+  );
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setSuccessAudio(new Audio(`${URL_BASE}/sounds/success.mp3`));
+      setErrorAudio(new Audio(`${URL_BASE}/sounds/error.mp3`));
+      setConfettiAudio(new Audio(`${URL_BASE}/sounds/confetti.mp3`));
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountClick(countClick + 1);
@@ -28,7 +42,7 @@ const Questions = () => {
       if (i === index) {
         return {
           ...pregunta,
-          selectedOption: value as "a" | "b" | "c" | undefined,
+          selectedOption: value as Opcion["letra"],
         };
       }
       return pregunta;
@@ -43,12 +57,18 @@ const Questions = () => {
     );
 
     if (opcionSeleccionada?.isCorrect) {
-      const audio = new Audio(`${URL_BASE}/sounds/success.mp3`);
-      audio.play();
+      if (successAudio) {
+        successAudio.volume = 0.5;
+        successAudio.currentTime = 0;
+        successAudio.play();
+      }
       console.log("¡Respuesta correcta!");
     } else {
-      const audio = new Audio(`${URL_BASE}/sounds/error.mp3`);
-      audio.play();
+      if (errorAudio) {
+        errorAudio.volume = 0.5;
+        errorAudio.currentTime = 0;
+        errorAudio.play();
+      }
       console.log("Respuesta incorrecta");
     }
   };
@@ -61,8 +81,7 @@ const Questions = () => {
   const imgStep = `step${pasosCorrectos}`;
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
+    if (countClick === 0) {
       return; // Salir del efecto en el primer renderizado
     }
     // Realizar scroll hacia la imagen del laberinto
@@ -71,23 +90,27 @@ const Questions = () => {
     }
 
     // Mostrar el confetti si se han respondido todas las preguntas correctamente en la menor cantidad de intentos
-    if (countClick === preguntas.length &&
-      pasosCorrectos === preguntas.length) {
-      const audio = new Audio(`${URL_BASE}/sounds/confetti.mp3`);
-      audio.play();
-      
-        confetti({
-          particleCount: 200,
-          angle: 60,
-          spread: 70,
-          origin: { x: 0, y: 0.9 },
-        });
-        confetti({
-          particleCount: 200,
-          angle: 120,
-          spread: 70,
-          origin: { x: 0.9, y: 0.9 },
-        });
+    if (
+      countClick === preguntas.length &&
+      pasosCorrectos === preguntas.length
+    ) {
+      if (confettiAudio) {
+        confettiAudio.volume = 1;
+        confettiAudio.currentTime = 0;
+        confettiAudio.play();
+      }
+      confetti({
+        particleCount: 200,
+        angle: 60,
+        spread: 70,
+        origin: { x: 0, y: 0.9 },
+      });
+      confetti({
+        particleCount: 200,
+        angle: 120,
+        spread: 70,
+        origin: { x: 1, y: 0.9 },
+      });
     }
 
     // Mostrar el notice cada vez que 'pasosCorrectos' cambia
@@ -105,7 +128,7 @@ const Questions = () => {
 
     // Limpiar el temporizador cuando el componente se desmonte o antes de ejecutar el efecto nuevamente
     return () => clearTimeout(timer);
-  }, [preguntas]); // Dependencias: se ejecuta cada vez que 'pasosCorrectos' cambia
+  }, [countClick]); // Dependencias: se ejecuta cada vez que 'pasosCorrectos' cambia
 
   return (
     <div className="flex flex-col md:flex-row mt-8 gap-8 font-brandon">
@@ -176,8 +199,10 @@ const Questions = () => {
                               ? "bg-amarillo_abbott text-azul_claro"
                               : ""
                           }  ${isDisabled ? "opacity-50 cursor-not-allowed" : ""}`}
+                          htmlFor={`option-${index}-${opcion.letra}`}
                         >
                           <input
+                            id={`option-${index}-${opcion.letra}`}
                             className="hidden"
                             type="radio"
                             name={`pregunta-${index}`}
