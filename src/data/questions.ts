@@ -13,7 +13,7 @@ type Pregunta = {
 
 export const preguntas: Pregunta[] = [
   {
-    pregunta: "¿Cuál es una posible consecuencia del uso indebido de azitromicina?",
+    pregunta: "¿Cuál es una posible consecuencia del uso indebido de los antibióticos?",
     opciones: [
       {
         letra: "a",
@@ -34,7 +34,7 @@ export const preguntas: Pregunta[] = [
     step: "step1"
   },
   {
-    pregunta: "¿Cuál de las siguientes situaciones representa un uso indebido de azitromicina?",
+    pregunta: "¿Cuál de las siguientes situaciones representa un uso indebido de los antibióticos?",
     opciones: [
       {
         letra: "a",
@@ -59,7 +59,7 @@ export const preguntas: Pregunta[] = [
   },
   {
     pregunta:
-      "¿Cómo puede contribuir el uso indebido de azitromicina al problema de la resistencia bacteriana?",
+      "¿Cómo puede contribuir el uso indebido de los antibióticos al problema de la resistencia bacteriana?",
     opciones: [
       {
         letra: "a",
@@ -80,7 +80,7 @@ export const preguntas: Pregunta[] = [
     step: "step3"
   },
   {
-    pregunta: "¿Qué debe hacerse antes de iniciar un tratamiento con azitromicina?",
+    pregunta: "¿Qué debe hacerse antes de iniciar un tratamiento con cualquier antibiótico?",
     opciones: [
       {
         letra: "a",
@@ -102,7 +102,7 @@ export const preguntas: Pregunta[] = [
   },
   {
     pregunta:
-      "¿Cómo puede el farmacéutico evitar el aumento de la resistencia bacteriana a la azitromicina?",
+      "¿Cómo puede el farmacéutico evitar el aumento de la resistencia a los antibióticos?",
     opciones: [
       {
         letra: "a",
