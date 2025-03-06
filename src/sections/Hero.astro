@@ -1,4 +1,5 @@
 ---
+import ApprobalCode from "../components/ApprobalCode.astro";
 import { URL_BASE } from "../variables";
 ---
 
@@ -14,16 +15,16 @@ import { URL_BASE } from "../variables";
           <span class="font-bold">ELEVANDO</span><br /> EL ESTÁNDAR
         </h1>
         <p class="text-4xl lg:text-6xl text-amarillo_abbott">
-          ENCUENTRA EL CAMINO AL USO RACIONAL DE LOS ANTIBIÓTICOS <span class="font-bold"
-            ></br>PARA PREVENIR LA RESISTENCIA BACTERIANA</span
-          >
+          ENCUENTRA EL CAMINO AL USO RACIONAL DE LOS ANTIBIÓTICOS <span
+            class="font-bold"></span>PARA PREVENIR LA RESISTENCIA BACTERIANA
         </p>
-        <a
-          href={URL_BASE + "/laberinto/"}
-          class="bg-blanco_abbott inline-block text-azul_oscuro px-6 py-3 rounded-full text-2xl"
-          ><span class="font-bold">HAZ CLIC AQUÍ</span> PARA EMPEZAR</a
-        >
       </div>
+      <a
+        href={URL_BASE + "/laberinto/"}
+        class="bg-blanco_abbott inline-block text-azul_oscuro px-6 py-3 rounded-full text-2xl mt-6"
+        ><span class="font-bold">HAZ CLIC AQUÍ</span> PARA EMPEZAR</a
+      >
     </div>
+    <ApprobalCode class="top-20 -right-4 md:right-10 -rotate-90" />
   </div>
-</section>
+</main>
