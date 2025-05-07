@@ -1,6 +1,6 @@
 import { URL_BASE } from "../variables";
 import { preguntas as data, type Opcion } from "../data/questions.ts";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 
 const Questions = () => {
@@ -190,7 +190,6 @@ const Questions = () => {
                 <ul className="mt-2 space-y-2">
                   {pregunta.opciones.map((opcion) => {
                     const isSelected = pregunta.selectedOption === opcion.letra;
-                    const isCorrect = opcion.isCorrect && isSelected;
                     return (
                       <li key={opcion.letra} className="text-xl">
                         <label
