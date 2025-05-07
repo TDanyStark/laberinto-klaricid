@@ -153,7 +153,7 @@ const Questions = () => {
                   </h2>
                   <p className="text-white text-2xl text-pretty">
                     {pasosCorrectos === preguntas.length
-                      ? "¡Felicidades! Has completado el laberinto"
+                      ? "¡Felicidades! Haz completado el laberinto"
                       : "Responde todas las preguntas para salir del laberinto"}
                   </p>
                   {pasosCorrectos === preguntas.length && (

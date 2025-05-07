@@ -80,21 +80,21 @@ export const preguntas: Pregunta[] = [
     step: "step3"
   },
   {
-    pregunta: "¿Qué debe hacerse antes de iniciar un tratamiento con cualquier antibiótico?",
+    pregunta: "¿Qué debe hacerse antes de iniciar un tratamiento con cua¿Cuál de los siguientes mensajes deben llevarse las personas sobre el uso correcto de un antibiótico?",
     opciones: [
       {
         letra: "a",
-        texto: "Verificar la disponibilidad del medicamento en la farmacia",
+        texto: "Guardar lo que le sobre para otra ocasión",
         isCorrect: false
       },
       {
         letra: "b",
-        texto: "Consultar con el médico y seguir sus recomendaciones",
+        texto: "Tomarlo exactamente como lo indicó el médico",
         isCorrect: true
       },
       {
         letra: "c",
-        texto: "Iniciar el tratamiento con base en la experiencia personal",
+        texto: "Suspenderlo cuando se sienta mejor",
         isCorrect: false
       }
     ],
