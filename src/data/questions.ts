@@ -80,7 +80,7 @@ export const preguntas: Pregunta[] = [
     step: "step3"
   },
   {
-    pregunta: "¿Qué debe hacerse antes de iniciar un tratamiento con cua¿Cuál de los siguientes mensajes deben llevarse las personas sobre el uso correcto de un antibiótico?",
+    pregunta: "¿Cuál de los siguientes mensajes deben llevarse las personas sobre el uso correcto de un antibiótico?",
     opciones: [
       {
         letra: "a",
